@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+    <h1>360 Checker</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" multiple name="imageFiles" />
+        <input type="submit" />
+    </form>
+
+    <p th:if="${imageError}"
+       th:text="${imageError}"></p>
+
+    <th:block th:if="${imageCount}" >
+        <div th:text="|${imageCount} images uploaded|"></div>
+
+        <div class="chk-imgs">
+            <div>
+                <span>Front Image</span>
+                <span th:text="|File name: ${frontImageName}|">Right</span>
+                <span th:text="|File position: ${frontImagePosition}|">Right</span>
+                <img th:src="'/files/' + ${frontImageName}" width="200px" />
+            </div>
+            <div>
+                <span>Left Side Image</span>
+                <span th:text="|File name: ${leftSideImageName}|">Right</span>
+                <span th:text="|File position: ${leftSideImagePosition}|">Right</span>
+                <img th:src="'/files/' + ${leftSideImageName}" width="200px" />
+            </div>
+            <div>
+                <span>Back Image</span>
+                <span th:text="|File name: ${backImageName}|">Right</span>
+                <span th:text="|File position: ${backImagePosition}|">Right</span>
+                <img th:src="'/files/' + ${backImageName}" width="200px" />
+            </div>
+            <div>
+                <span>Right Side Image</span>
+                <span th:text="|File name: ${rightSideImageName}|">Right</span>
+                <span th:text="|File position: ${rightSidePosition}|">Right</span>
+                <img th:src="'/files/' + ${frontImageName}" width="200px" />
+            </div>
+        </div>
+    </th:block>
+
+    <style type="text/css">
+        *{
+            font-family: sans-serif;
+            text-align: center;
+        }
+        form{
+            margin: 45px;
+        }
+        .chk-imgs{
+            max-width: 800px;
+            margin: 20px auto 0;
+        }
+        .chk-imgs>div{
+            min-width: 200px;
+        }
+        .chk-imgs>div span{
+            width: 100%;
+        }
+        .chk-imgs>div, .chk-imgs>div span{
+            float: left;
+        }
+        .chk-imgs>div img{
+            float: left;
+            clear: left;
+        }
+    </style>
+
+</html>
