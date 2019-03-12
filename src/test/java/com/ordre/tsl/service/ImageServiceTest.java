@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import static org.junit.Assert.assertEquals;
 
-import static com.ordre.tsl.provider.MockProvider.*;
+import static com.ordre.tsl.provider.MockProvider.createMockFile;
 
 public class ImageServiceTest {
 
