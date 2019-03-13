@@ -6,11 +6,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
 import static com.ordre.tsl.provider.MockProvider.createMockFile;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 
 public class ImageServiceTest {
 
@@ -61,7 +65,8 @@ public class ImageServiceTest {
         MultipartFile rightSideImage = createMockFile("img07");
         MultipartFile image8 = createMockFile("img08");
 
-        MultipartFile[] listOfImages = concat(totalImages, new MultipartFile[]{backImage, image6, rightSideImage, image8});
+        MultipartFile[] listOfImages = concatTwoArrays(
+                totalImages, new MultipartFile[]{backImage, image6, rightSideImage, image8});
 
         ImageFiles sortedImages = imageService.saveImages(listOfImages);
 
@@ -79,14 +84,17 @@ public class ImageServiceTest {
     }
 
     @Test
-    public void testSaveToTempDirectory() {
-        imageService.sortImagesByIndex(totalImages);
+    public void testSaveFileToTmpDirectory() throws ImageException, IOException {
+        imageService.saveImages(totalImages);
 
+        for (MultipartFile file : totalImages) {
+            verify(file).transferTo(any(File.class));
+        }
     }
 
-    private static <T> T[] concat(T[] first, T[] second) {
-        T[] concatenatedArray = Arrays.copyOf(first, first.length + second.length);
-        System.arraycopy(second, 0, concatenatedArray, first.length, second.length);
+    private <T> T[] concatTwoArrays(T[] firstArray, T[] secondArray) {
+        T[] concatenatedArray = Arrays.copyOf(firstArray, firstArray.length + secondArray.length);
+        System.arraycopy(secondArray, 0, concatenatedArray, firstArray.length, secondArray.length);
         return concatenatedArray;
     }
 

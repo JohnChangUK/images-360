@@ -47,14 +47,4 @@ public class ImageFiles {
     public int hashCode() {
         return Objects.hash(front, back, leftSide, rightSide);
     }
-
-    @Override
-    public String toString() {
-        return "ImageFiles{" +
-                "front=" + front +
-                ", back=" + back +
-                ", leftSide=" + leftSide +
-                ", rightSide=" + rightSide +
-                '}';
-    }
 }

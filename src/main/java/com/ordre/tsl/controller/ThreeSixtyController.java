@@ -42,7 +42,6 @@ public class ThreeSixtyController {
 
         try {
             ImageFiles imageFiles = imageService.saveImages(images);
-
             addModelAttribute(images, model, imageFiles);
         } catch (ImageException e) {
             model.addAttribute("imageError", e.getMessage());
