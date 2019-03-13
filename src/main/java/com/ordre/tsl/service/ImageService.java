@@ -28,7 +28,6 @@ public class ImageService {
     @Autowired
     public ImageService(@Value("/tmp/threesixty-loader/") String tmpFolder) {
         this.tmpFolder = tmpFolder;
-        this.listOfIndexedImages = new ArrayList<>();
     }
 
     public ImageFiles saveImages(MultipartFile[] images) throws ImageException {
@@ -47,16 +46,17 @@ public class ImageService {
         return getImageFiles(images);
     }
 
+    /**
+     * Formula for calculating image index: n(t/4) + 1
+     * The method omits the plus 1 as Array indexing starts from 0
+     */
     private ImageFiles getImageFiles(MultipartFile[] images) {
         int totalNumberOfImages = images.length;
 
         Image frontImage = getImage(listOfIndexedImages.get(0));
-        Image backImage = totalNumberOfImages == 4 ? getImage(listOfIndexedImages.get(2)) :
-                getImage(listOfIndexedImages.get((2 * (totalNumberOfImages / 4)) + 1));
-        Image leftSideImage = totalNumberOfImages == 4 ? getImage(listOfIndexedImages.get(1)) :
-                getImage(listOfIndexedImages.get((totalNumberOfImages / 4) + 1));
-        Image rightSideImage = totalNumberOfImages == 4 ? getImage(listOfIndexedImages.get(3)) :
-                getImage(listOfIndexedImages.get((3 * (totalNumberOfImages / 4)) + 1));
+        Image backImage = getImage(listOfIndexedImages.get((2 * (totalNumberOfImages / 4))));
+        Image leftSideImage = getImage(listOfIndexedImages.get((totalNumberOfImages / 4)));
+        Image rightSideImage = getImage(listOfIndexedImages.get((3 * (totalNumberOfImages / 4))));
 
         return new ImageFiles(frontImage, backImage, leftSideImage, rightSideImage);
     }
@@ -80,6 +80,8 @@ public class ImageService {
     }
 
     void sortImagesByIndex(MultipartFile[] images) {
+        listOfIndexedImages = new ArrayList<>();
+
         for (int i = 0; i < images.length; i++) {
             listOfIndexedImages.add(new IndexedImageFile(images[i], i + 1));
         }
