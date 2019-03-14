@@ -24,7 +24,8 @@ public class IndexedImageFile implements Comparable<IndexedImageFile> {
 
     @Override
     public int compareTo(IndexedImageFile o) {
-        return getIndex() - o.getIndex();
+        return getMultipartFile().getOriginalFilename()
+                .compareTo(o.getMultipartFile().getOriginalFilename());
     }
 
     @Override
